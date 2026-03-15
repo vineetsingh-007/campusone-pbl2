@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, Calendar, Briefcase, Sparkles, Shield, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+
 const floatingCards = [
   { icon: BookOpen, label: "Notes Shared", value: "2,400+", color: "from-violet-500/20 to-purple-500/20", border: "border-violet-500/20", top: "top-8", left: "left-4", delay: 0 },
   { icon: Calendar, label: "Events Active", value: "120+", color: "from-blue-500/20 to-cyan-500/20", border: "border-blue-500/20", top: "top-24", right: "right-0", delay: 0.4 },
