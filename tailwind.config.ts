@@ -107,6 +107,10 @@ export default {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-12px)" },
         },
+        "float-bob": {
+          "0%, 100%": { transform: "translateY(-4px)" },
+          "50%": { transform: "translateY(4px)" },
+        },
         "pulse-glow": {
           "0%, 100%": { boxShadow: "0 0 20px hsl(var(--primary) / 0.2)" },
           "50%": { boxShadow: "0 0 40px hsl(var(--primary) / 0.4)" },
@@ -136,6 +140,7 @@ export default {
         "slide-up": "slide-up 0.7s cubic-bezier(0.16,1,0.3,1) forwards",
         "float": "float 6s ease-in-out infinite",
         "float-delayed": "float 6s ease-in-out infinite 2s",
+        "float-bob": "float-bob 7s ease-in-out infinite",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "shimmer": "shimmer 2s linear infinite",
         "orbit": "orbit 8s linear infinite",
