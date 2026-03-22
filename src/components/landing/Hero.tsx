@@ -32,11 +32,10 @@ const Hero = () => {
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const lightsY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
-  const cardsY = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
 
   const springConfig = { damping: 30, stiffness: 100 };
   const springX = useSpring(mouseX, springConfig);
@@ -50,10 +49,6 @@ const Hero = () => {
 
   const textMouseX = useTransform(springX, [-0.5, 0.5], ["-6px", "6px"]);
   const textMouseY = useTransform(springY, [-0.5, 0.5], ["-6px", "6px"]);
-  
-  const cardsMouseX = useTransform(springX, [-0.5, 0.5], ["8px", "-8px"]);
-  const cardsMouseY = useTransform(springY, [-0.5, 0.5], ["8px", "-8px"]);
-
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!targetRef.current) return;
@@ -69,7 +64,7 @@ const Hero = () => {
     <motion.section
       ref={targetRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden py-16 md:py-0"
       style={{ perspective: "1000px" }}
     >
       <motion.div style={{ y: bgY }} className="absolute inset-0 z-0">
@@ -100,97 +95,87 @@ const Hero = () => {
 
       <motion.div
         style={{ y: textY, opacity: textOpacity }}
-        className="relative z-20"
+        className="relative z-20 flex flex-col items-center text-center px-4 pt-24 sm:pt-0"
       >
-        <motion.div style={{ x: textMouseX, y: textMouseY }} className="mx-auto max-w-5xl text-center px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        <motion.div style={{ x: textMouseX, y: textMouseY }} className="max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h1
+              className="text-4xl font-extrabold tracking-tight text-slate-50 sm:text-6xl md:text-7xl"
+              style={{ textShadow: "0px 10px 40px rgba(0,0,0,0.85)" }}
             >
-              <h1
-                className="text-4xl font-extrabold tracking-tight text-slate-50 sm:text-6xl md:text-7xl"
-                style={{ textShadow: "0px 10px 40px rgba(0,0,0,0.85)" }}
+              <span className="block">CAMPUS ONE</span>
+              <span className="block text-violet-400">All Campus Services</span>
+              <span className="block">In One Smart Platform</span>
+            </h1>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="mx-auto mt-6 max-w-xl text-lg text-slate-300 sm:text-xl"
+          >
+            Notes, internships, events, and more — all unified in one intelligent
+            platform designed for modern students.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+          >
+            <Link to="/login">
+              <Button
+                size="lg"
+                className="h-12 w-full sm:w-auto px-8 rounded-xl text-white font-bold transition-all duration-300 hover:scale-105 shadow-glow bg-black/60 backdrop-blur-lg border border-white/20 hover:bg-black/80 hover:border-white/30"
               >
-                <span className="block">CAMPUS ONE</span>
-                <span className="block text-violet-400">
-                  All Campus Services
-                </span>
-                <span className="block">In One Smart Platform</span>
-              </h1>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="mx-auto mt-8 max-w-xl text-lg text-slate-300 sm:text-xl"
-            >
-              Notes, internships, events, and more — all unified in one intelligent
-              platform designed for modern students.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
-            >
-              <Link to="/login">
-                <Button
-                  size="lg"
-                  className="h-12 w-full sm:w-auto px-8 bg-white text-black font-bold rounded-xl shadow-[0_5px_20px_rgba(255,255,255,0.25)] transition-all duration-300 hover:scale-105 hover:bg-gray-200 hover:shadow-[0_8px_30px_rgba(255,255,255,0.3)]"
-                >
-                  Start for Free <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <a href="#features">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="h-12 w-full sm:w-auto px-8 bg-white/10 text-white font-semibold border-white/20 rounded-xl shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/20"
-                >
-                  See How It Works
-                </Button>
-              </a>
-            </motion.div>
+                Start for Free <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+            <a href="#features">
+              <Button
+                variant="outline"
+                size="lg"
+                className="h-12 w-full sm:w-auto px-8 rounded-xl text-white font-semibold transition-all duration-300 hover:scale-105 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20"
+              >
+                See How It Works
+              </Button>
+            </a>
+          </motion.div>
         </motion.div>
       </motion.div>
       
       <motion.div
-        style={{ y: cardsY, opacity: textOpacity }}
-        className="absolute inset-0 z-30 pointer-events-none"
+        initial={{ opacity: 0, y: 40, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 1.2, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-30 w-full max-w-4xl mx-auto p-4 mt-12 sm:mt-8"
       >
-        <motion.div
-          style={{ x: cardsMouseX, y: cardsMouseY }}
-          className="relative h-full w-full flex items-center justify-center"
+        <div 
+          className="grid grid-cols-3 gap-2 sm:gap-4 w-full"
+          style={{
+            background: "rgba(20,20,35,0.55)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.12)",
+            borderRadius: "16px",
+            padding: "1rem",
+          }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute sm:bottom-8 animate-float-bob"
-            style={{
-              background: "rgba(20,20,35,0.55)",
-              backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.12)",
-              borderRadius: "16px",
-              padding: "16px 24px",
-            }}
-          >
-            <div className="flex items-center justify-center gap-x-12">
-              {statCards.map((card) => (
-                <div key={card.label} className="flex items-center space-x-3 text-center">
-                  <card.icon className="h-6 w-6 text-slate-50" />
-                  <div>
-                    <p className="text-xl font-bold text-slate-50">{card.value}</p>
-                    <p className="text-sm text-slate-400">{card.label}</p>
-                  </div>
-                </div>
-              ))}
+          {statCards.map((card) => (
+            <div key={card.label} className="flex flex-col items-center text-center p-2 space-y-1">
+              <card.icon className="h-5 w-5 sm:h-6 sm:w-6 text-slate-50" />
+              <div>
+                <p className="text-base sm:text-lg font-bold text-slate-50">{card.value}</p>
+                <p className="text-xs text-slate-400">{card.label}</p>
+              </div>
             </div>
-          </motion.div>
-        </motion.div>
+          ))}
+        </div>
       </motion.div>
     </motion.section>
   );

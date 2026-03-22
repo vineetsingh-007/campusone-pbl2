@@ -31,29 +31,28 @@ const AnnouncementsPage = () => {
       ) : (
         <div className="space-y-3">
           {announcements.map((a, i) => (
-            <motion.div key={a.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+            <motion.div
+              key={a.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}
-              className="rounded-xl border border-border bg-card p-5">
-              <div className="flex items-start gap-3">
+              className="rounded-xl border border-border bg-card p-4"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                 <div className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${a.urgent ? "bg-primary/10" : "bg-secondary"}`}>
                   <Bell size={16} className={a.urgent ? "text-primary" : "text-muted-foreground"} />
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-foreground">{a.title}</h3>
-                      {a.urgent && (
-                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">Urgent</span>
-                      )}
-                    </div>
+                  <div className="flex flex-col-reverse sm:flex-row sm:items-start sm:justify-between gap-1">
+                    <h3 className="font-semibold text-foreground">{a.title}</h3>
                     <span className="shrink-0 text-xs text-muted-foreground">
                       {formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
                     </span>
                   </div>
-                  <p className="mt-1 font-serif text-sm text-muted-foreground">{a.body}</p>
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    {formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
-                  </p>
+                  {a.urgent && (
+                    <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">Urgent</span>
+                  )}
+                  <p className="mt-2 text-sm text-muted-foreground">{a.body}</p>
                 </div>
               </div>
             </motion.div>

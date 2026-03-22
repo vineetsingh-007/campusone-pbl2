@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll } from "framer-motion";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/ui/logo";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -31,9 +32,7 @@ const Navbar = () => {
         )}
       >
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-white shadow-sm">
-            <Zap size={16} className="text-black" />
-          </div>
+          <Logo />
           <span className="text-lg font-bold tracking-tight text-white">
             Campus One
           </span>
@@ -116,7 +115,7 @@ const Navbar = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full text-slate-200 border-white/50 hover:bg-white/10 hover:text-white"
+                  className="w-full bg-white text-black hover:bg-gray-100"
                 >
                   Log in
                 </Button>

@@ -116,7 +116,7 @@ const InternshipsPage = () => {
           No internship opportunities yet. Check back soon!
         </p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {internships.map((item, i) => {
             const app = getAppStatus(item.id);
             return (
@@ -125,51 +125,58 @@ const InternshipsPage = () => {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
-                className="flex flex-col gap-4 rounded-xl border border-border bg-card p-5 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-4 rounded-xl border border-border bg-card p-4"
               >
-                {/* Left */}
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-lg font-bold text-primary">
-                    {item.company.charAt(0)}
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">{item.role}</h3>
-                    <p className="text-sm text-muted-foreground">{item.company}</p>
-                    <div className="mt-2 flex flex-wrap gap-3 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <MapPin size={12} />
-                        {item.location}
-                      </span>
-                      <span className="rounded bg-secondary px-2 py-0.5 text-secondary-foreground">
-                        {item.type}
-                      </span>
-                      {item.deadline && (
-                        <span className="flex items-center gap-1">
-                          <Clock size={12} />
-                          Deadline: {formatDeadline(item.deadline)}
-                        </span>
-                      )}
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-lg font-bold text-primary">
+                      {item.company.charAt(0)}
                     </div>
-                    {item.description && (
-                      <p className="mt-2 line-clamp-1 text-xs text-muted-foreground">
-                        {item.description}
-                      </p>
-                    )}
+                    <div className="w-full">
+                      <h3 className="font-semibold text-foreground">{item.role}</h3>
+                      <p className="text-sm text-muted-foreground">{item.company}</p>
+                    </div>
                   </div>
+                  <span className="hidden sm:block text-sm font-medium text-foreground whitespace-nowrap">{item.stipend}</span>
                 </div>
 
-                {/* Right */}
-                <div className="flex shrink-0 items-center gap-3">
-                  <span className="text-sm font-medium text-foreground">{item.stipend}</span>
-                  {app && (
-                    <div className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                      <CheckCircle2 size={12} />
-                      {appStatusLabel[app.status] ?? app.status}
+                {item.description && (
+                  <p className="text-sm text-muted-foreground">
+                    {item.description}
+                  </p>
+                )}
+
+                <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <MapPin size={12} />
+                      {item.location}
+                    </span>
+                    <span className="rounded bg-secondary px-2 py-0.5 text-secondary-foreground">
+                      {item.type}
+                    </span>
+                    {item.deadline && (
+                      <span className="flex items-center gap-1">
+                        <Clock size={12} />
+                        Deadline: {formatDeadline(item.deadline)}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-end">
+                    <span className="sm:hidden text-sm font-medium text-foreground">{item.stipend}</span>
+                    <div className="flex items-center gap-2">
+                      {app && (
+                        <div className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                          <CheckCircle2 size={12} />
+                          {appStatusLabel[app.status] ?? app.status}
+                        </div>
+                      )}
+                      <Button size="sm" variant="outline" onClick={() => setSelected(item)}>
+                        View Details
+                      </Button>
                     </div>
-                  )}
-                  <Button size="sm" variant="outline" onClick={() => setSelected(item)}>
-                    View Details
-                  </Button>
+                  </div>
                 </div>
               </motion.div>
             );

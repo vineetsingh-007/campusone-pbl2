@@ -71,23 +71,38 @@ const ClubsPage = () => {
           {clubs.map((club, i) => {
             const isMember = myMemberships.includes(club.id);
             return (
-              <motion.div key={club.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.07 }} whileHover={{ y: -3 }}
-                className="flex flex-col justify-between rounded-xl border border-border bg-card p-5 transition-shadow hover:shadow-lg">
+              <motion.div
+                key={club.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.07 }}
+                className="flex flex-col justify-between rounded-xl border border-border bg-card p-5 transition-shadow hover:shadow-lg"
+              >
                 <div>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-lg font-bold text-primary">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-xl font-bold text-primary">
                     {club.name.charAt(0)}
                   </div>
-                  <h3 className="mt-3 font-semibold text-foreground">{club.name}</h3>
-                  <p className="mt-1 font-serif text-sm text-muted-foreground">{club.description}</p>
-                  <div className="mt-3 flex gap-4 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1"><Users size={12} />{club.member_count} members</span>
-                    <span className="rounded bg-secondary px-2 py-0.5 text-secondary-foreground">{club.category}</span>
+                  <h3 className="mt-4 font-semibold text-foreground">{club.name}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{club.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
+                    <span className="flex items-center gap-1.5"><Users size={14} />{club.member_count} members</span>
+                    <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-secondary-foreground">{club.category}</span>
                   </div>
                 </div>
-                <Button size="sm" variant={isMember ? "default" : "outline"} className="mt-4 w-full gap-1.5"
-                  onClick={() => toggleMembership.mutate(club.id)} disabled={toggleMembership.isPending}>
-                  {isMember ? <><Check size={14} /> Member</> : "Join Club"}
+                <Button
+                  size="sm"
+                  variant={isMember ? "outline" : "default"}
+                  className="mt-5 w-full gap-1.5"
+                  onClick={() => toggleMembership.mutate(club.id)}
+                  disabled={toggleMembership.isPending}
+                >
+                  {toggleMembership.isPending && toggleMembership.variables === club.id ? (
+                    <Loader2 size={14} className="animate-spin" />
+                  ) : isMember ? (
+                    <><Check size={14} /> Joined</>
+                  ) : (
+                    "Join Club"
+                  )}
                 </Button>
               </motion.div>
             );

@@ -81,9 +81,13 @@ const EventsPage = () => {
           {events.map((event, i) => {
             const isRegistered = myRegistrations.includes(event.id);
             return (
-              <motion.div key={event.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }} whileHover={{ y: -3 }}
-                className="flex flex-col justify-between rounded-xl border border-border bg-card p-5 transition-shadow hover:shadow-lg">
+              <motion.div
+                key={event.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                className="flex flex-col justify-between rounded-xl border border-border bg-card p-5 transition-shadow hover:shadow-lg"
+              >
                 <div>
                   <div className="flex items-center justify-between">
                     <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${typeColors[event.type] ?? "bg-accent text-accent-foreground"}`}>
@@ -96,20 +100,20 @@ const EventsPage = () => {
                     )}
                   </div>
                   <h3 className="mt-3 text-lg font-semibold text-foreground">{event.title}</h3>
-                  <p className="mt-1 font-serif text-sm text-muted-foreground">{event.description}</p>
-                  <div className="mt-4 flex flex-wrap gap-4 text-xs text-muted-foreground">
+                  <p className="mt-1 text-sm text-muted-foreground">{event.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
                     {event.event_date && (
-                      <span className="flex items-center gap-1">
-                        <Calendar size={12} />{format(new Date(event.event_date), "MMM d, yyyy")}
+                      <span className="flex items-center gap-1.5">
+                        <Calendar size={14} />{format(new Date(event.event_date), "MMM d, yyyy")}
                       </span>
                     )}
-                    <span className="flex items-center gap-1"><MapPin size={12} />{event.location}</span>
+                    <span className="flex items-center gap-1.5"><MapPin size={14} />{event.location}</span>
                     {event.max_attendees && (
-                      <span className="flex items-center gap-1"><Users size={12} />{event.max_attendees} max</span>
+                      <span className="flex items-center gap-1.5"><Users size={14} />{event.max_attendees} max</span>
                     )}
                   </div>
                 </div>
-                <div className="mt-4">
+                <div className="mt-5">
                   <Button size="sm" className="w-full" variant={isRegistered ? "outline" : "default"}
                     onClick={() => register.mutate(event.id)} disabled={register.isPending}>
                     {register.isPending ? <Loader2 size={14} className="animate-spin" /> : isRegistered ? "Unregister" : "Register"}

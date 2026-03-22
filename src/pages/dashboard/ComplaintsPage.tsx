@@ -117,27 +117,35 @@ const ComplaintsPage = () => {
       ) : complaints.length === 0 ? (
         <p className="py-12 text-center text-muted-foreground">No complaints submitted yet.</p>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-3">
           {complaints.map((c, i) => {
             const cfg = statusConfig[c.status] ?? statusConfig.open;
             return (
-              <motion.div key={c.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-                className="rounded-lg border border-border bg-card p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3">
-                    <cfg.icon size={16} className={`mt-0.5 ${cfg.color}`} />
-                    <div>
-                      <p className="font-medium text-foreground">{c.title}</p>
-                      <p className="mt-0.5 text-xs text-muted-foreground">{c.category} · {formatDistanceToNow(new Date(c.created_at), { addSuffix: true })}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">{c.description}</p>
-                      {c.admin_note && (
-                        <p className="mt-2 rounded bg-primary/5 px-2 py-1 text-xs text-foreground">
-                          <span className="font-medium">Admin note:</span> {c.admin_note}
-                        </p>
-                      )}
+              <motion.div
+                key={c.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="rounded-lg border border-border bg-card p-4"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <cfg.icon size={16} className={`shrink-0 ${cfg.color}`} />
+                      <p className="font-medium text-foreground line-clamp-1">{c.title}</p>
                     </div>
+                    <p className="mt-2 text-sm text-muted-foreground sm:pl-8">{c.description}</p>
+                    {c.admin_note && (
+                      <p className="mt-2 rounded bg-primary/5 px-2 py-1 text-xs text-foreground sm:ml-8">
+                        <span className="font-medium">Admin note:</span> {c.admin_note}
+                      </p>
+                    )}
                   </div>
-                  <span className={`shrink-0 text-xs font-medium ${cfg.color}`}>{cfg.label}</span>
+                  <div className="flex flex-row-reverse sm:flex-col sm:items-end sm:text-right gap-x-3 gap-y-1 text-xs">
+                    <span className={`font-medium ${cfg.color}`}>{cfg.label}</span>
+                    <span className="text-muted-foreground">{c.category}</span>
+                    <span className="text-muted-foreground">{formatDistanceToNow(new Date(c.created_at), { addSuffix: true })}</span>
+                  </div>
                 </div>
               </motion.div>
             );

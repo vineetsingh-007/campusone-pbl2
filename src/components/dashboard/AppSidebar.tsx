@@ -5,10 +5,11 @@ import { useRole } from "@/hooks/useRole";
 import {
   LayoutDashboard, BookOpen, Calendar, Briefcase,
   MessageSquare, Bell, Users, LogOut, ChevronLeft, ChevronRight,
-  Shield, FileText, User, Zap,
+  Shield, FileText, User,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/ui/logo";
 
 const studentNavItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
@@ -60,9 +61,7 @@ const AppSidebar = () => {
               className="flex items-center gap-2.5"
             >
               <Link to="/" className="flex items-center gap-2.5 group">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl gradient-primary shadow-glow group-hover:scale-105 transition-transform">
-                  <Zap size={14} className="text-white fill-white" />
-                </div>
+                <Logo className="h-8 w-8" />
                 <span className="text-sm font-bold tracking-tight text-foreground">
                   Campus <span className="gradient-text">One</span>
                 </span>
@@ -78,9 +77,7 @@ const AppSidebar = () => {
               className="mx-auto"
             >
               <Link to="/">
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl gradient-primary shadow-glow hover:scale-105 transition-transform">
-                  <Zap size={14} className="text-white fill-white" />
-                </div>
+                <Logo className="h-8 w-8" />
               </Link>
             </motion.div>
           )}

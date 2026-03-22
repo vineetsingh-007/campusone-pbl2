@@ -25,6 +25,7 @@ const NotesPage = () => {
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({ title: "", subject: "DSA", semester: "3rd", description: "" });
   const [file, setFile] = useState<File | null>(null);
+  const [otherSubject, setOtherSubject] = useState("");
 
   const { data: notes = [], isLoading } = useQuery({
     queryKey: ["notes"],
@@ -49,6 +50,11 @@ const NotesPage = () => {
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !user) return;
+    if (form.subject === "Other" && !otherSubject.trim()) {
+      toast({ title: "Validation failed", description: "Please enter a subject name.", variant: "destructive" });
+      return;
+    }
+
     setUploading(true);
     try {
       const ext = file.name.split(".").pop()?.toUpperCase() ?? "PDF";
@@ -58,10 +64,12 @@ const NotesPage = () => {
 
       const { data: urlData } = supabase.storage.from("notes").getPublicUrl(filePath);
 
+      const subject = form.subject === "Other" ? otherSubject.trim() : form.subject;
+
       const { error: dbErr } = await supabase.from("notes").insert({
         user_id: user.id,
         title: form.title,
-        subject: form.subject,
+        subject: subject,
         semester: form.semester,
         description: form.description,
         file_url: urlData.publicUrl,
@@ -76,6 +84,7 @@ const NotesPage = () => {
       setShowUpload(false);
       setForm({ title: "", subject: "DSA", semester: "3rd", description: "" });
       setFile(null);
+      setOtherSubject("");
     } catch (err: unknown) {
       toast({ title: "Upload failed", description: (err as Error).message, variant: "destructive" });
     } finally {
@@ -128,6 +137,14 @@ const NotesPage = () => {
                   <SelectContent>{SUBJECTS.filter(s => s !== "All").map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
+            </div>
+            {form.subject === "Other" && (
+              <div className="space-y-1.5">
+                <Label>Enter Subject Name</Label>
+                <Input required placeholder="e.g. Artificial Intelligence" value={otherSubject} onChange={e => setOtherSubject(e.target.value)} />
+              </div>
+            )}
+            <div className="grid gap-3 sm:grid-cols-2">
               <div className="space-y-1.5">
                 <Label>Semester</Label>
                 <Select value={form.semester} onValueChange={v => setForm(f => ({ ...f, semester: v }))}>
@@ -174,32 +191,41 @@ const NotesPage = () => {
       {isLoading ? (
         <div className="flex justify-center py-12"><Loader2 className="animate-spin text-muted-foreground" /></div>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-3">
           {filtered.map((note, i) => (
-            <motion.div key={note.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
-              className="flex items-center justify-between rounded-lg border border-border bg-card p-4 transition-colors hover:border-primary/20">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <FileText size={18} className="text-primary" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium text-foreground">{note.title}</p>
-                    {statusIcon(note.status)}
+            <motion.div
+              key={note.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.04 }}
+              className="rounded-lg border border-border bg-card p-4 transition-colors hover:border-primary/20"
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                    <FileText size={18} className="text-primary" />
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    {note.subject} · {note.semester} Sem · {new Date(note.created_at).toLocaleDateString()}
-                  </p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium text-foreground line-clamp-1">{note.title}</p>
+                      {statusIcon(note.status)}
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {note.subject} · {note.semester} Sem · {new Date(note.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="rounded bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">{note.file_type}</span>
-                <span className="text-xs text-muted-foreground">{note.download_count} ↓</span>
-                {note.status === "approved" && (
-                  <Button variant="ghost" size="sm" onClick={() => handleDownload(note)}>
-                    <Download size={14} />
-                  </Button>
-                )}
+                <div className="flex items-center justify-between gap-3 sm:justify-end">
+                  <div className="flex items-center gap-3">
+                    <span className="rounded bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">{note.file_type}</span>
+                    <span className="text-xs text-muted-foreground">{note.download_count} ↓</span>
+                  </div>
+                  {note.status === "approved" && (
+                    <Button variant="ghost" size="sm" onClick={() => handleDownload(note)}>
+                      <Download size={14} />
+                    </Button>
+                  )}
+                </div>
               </div>
             </motion.div>
           ))}
