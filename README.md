@@ -2,6 +2,10 @@
 
 A comprehensive student community and resource platform that connects students with academic materials, internships, clubs, events, and campus updates through a single interactive dashboard.
 
+
+### Home Page
+<img width="1836" height="1017" alt="Screenshot 2026-06-19 181214" src="https://github.com/user-attachments/assets/e47fba81-5ac5-4e31-ba10-676eac9adcc7" />
+
 ---
 
 ## Overview
